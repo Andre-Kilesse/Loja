@@ -27,65 +27,74 @@ public class Loja {
     }
 
     public void comprarItem(int codigo, int quantidade) {
-        // Verifica se o produto está na vitrine
-        Item itemComprado = null;
+        // Verifica se o código do produto está na vitrine
+        Item produtoEscolhido = null;
         for (Item item : vitrine.itens) {
             if (item.codigo == codigo) {
-                itemComprado = item;
+                produtoEscolhido = item;
                 break;
             }
         }
 
-        if (itemComprado != null) {
-            // Verifica se há estoque suficiente
-            if (quantidade <= 0 || quantidade > 10) {
-                System.out.println("Quantidade inválida. Tente novamente.");
-                return;
-            }
-
-            // Adiciona o item ao carrinho
-            ItemDoCarrinho itemDoCarrinho = new ItemDoCarrinho(itemComprado, quantidade);
+        // Se o produto foi encontrado, adiciona ao carrinho
+        if (produtoEscolhido != null) {
+            ItemDoCarrinho itemDoCarrinho = new ItemDoCarrinho(produtoEscolhido, quantidade);
             carrinhoDeCompra.adicionarItem(itemDoCarrinho);
-
-            System.out.println("Item adicionado ao carrinho com sucesso.");
+            System.out.println("Item adicionado ao carrinho.");
         } else {
             System.out.println("Produto não encontrado na vitrine.");
         }
     }
 
     public void realizarPagamento() {
-        double totalCompra = calcularTotalCompra();
-
-        // Aplica desconto de 10% se for à vista
-        System.out.println("Total da compra: R$" + totalCompra);
-        System.out.println("Selecione a forma de pagamento:");
-        System.out.println("1. À vista");
-        System.out.println("2. Parcelado");
-
-        Scanner scanner = new Scanner(System.in);
-        int opcaoPagamento = scanner.nextInt();
-
-        double totalPagar;
-        if (opcaoPagamento == 1) {
-            totalPagar = totalCompra * 0.9; // Aplica desconto de 10%
-        } else if (opcaoPagamento == 2) {
-            totalPagar = totalCompra;
-        } else {
-            System.out.println("Opção de pagamento inválida. Cancelando pagamento.");
+        // Verifica se há itens no carrinho
+        if (carrinhoDeCompra.itensDoCarrinho.isEmpty()) {
+            System.out.println("Carrinho vazio. Nada a pagar.");
             return;
         }
 
-        System.out.println("Total a pagar: R$" + totalPagar);
-        System.out.println("Pagamento realizado com sucesso. Obrigado!");
-        carrinhoDeCompra.itensDoCarrinho.clear(); // Limpa o carrinho após o pagamento
-    }
-
-    private double calcularTotalCompra() {
+        // Calcula o total da compra
         double totalCompra = 0;
         for (ItemDoCarrinho itemDoCarrinho : carrinhoDeCompra.itensDoCarrinho) {
             totalCompra += itemDoCarrinho.item.valor * itemDoCarrinho.quantidade;
         }
-        return totalCompra;
+
+        // Aplica desconto de 10% se o pagamento for à vista
+        double totalComDesconto = totalCompra;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Deseja pagar à vista? (S/N): ");
+        String opcaoPagamento = scanner.next();
+
+        if (opcaoPagamento.equalsIgnoreCase("S")) {
+            totalComDesconto *= 0.9; // Aplica desconto de 10%
+            System.out.println("Desconto de 10% aplicado.");
+        }
+
+        System.out.println("Total da compra: R$" + totalCompra);
+        System.out.println("Total com desconto: R$" + totalComDesconto);
+        System.out.println("Escolha a forma de pagamento:");
+        System.out.println("1. PIX");
+        System.out.println("2. TED");
+        System.out.println("3. Cartão de Crédito");
+
+        int opcaoFormaPagamento = scanner.nextInt();
+
+        switch (opcaoFormaPagamento) {
+            case 1:
+                System.out.println("Pagamento realizado via PIX. Obrigado!");
+                break;
+            case 2:
+                System.out.println("Pagamento realizado via TED. Obrigado!");
+                break;
+            case 3:
+                System.out.println("Pagamento realizado via Cartão de Crédito. Obrigado!");
+                break;
+            default:
+                System.out.println("Opção de pagamento inválida.");
+        }
+
+        // Limpa o carrinho após o pagamento
+        carrinhoDeCompra.itensDoCarrinho.clear();
     }
 
     public void cadastrarNovoItem(Item novoItem) {
@@ -93,12 +102,62 @@ public class Loja {
         System.out.println("Novo produto cadastrado com sucesso.");
     }
 
+    public void atualizarPrecoItem(int codigo, double novoPreco) {
+        // Implementação do método atualizarPrecoItem
+    }
+
+    public void removerItem(int codigo) {
+        for (Item item : vitrine.itens) {
+            if (item.codigo == codigo) {
+                vitrine.itens.remove(item);
+                System.out.println("Produto removido com sucesso.");
+                return;
+            }
+        }
+        System.out.println("Produto não encontrado na vitrine.");
+    }
+
     public static void main(String[] args) {
         Loja loja = new Loja();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            // Restante do código do menu principal...
+            System.out.println("Menu Principal:");
+            System.out.println("1. Ver Vitrine");
+            System.out.println("2. Ver Carrinho de Compra");
+            System.out.println("3. Comprar Item");
+            System.out.println("4. Realizar Pagamento");
+            System.out.println("5. Acessar Opções do Administrador");
+            System.out.println("0. Sair");
+
+            int opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    loja.verVitrine();
+                    break;
+                case 2:
+                    loja.verCarrinhoDeCompra();
+                    break;
+                case 3:
+                    System.out.println("Informe o código do produto: ");
+                    int codigoCompra = scanner.nextInt();
+                    System.out.println("Informe a quantidade: ");
+                    int quantidadeCompra = scanner.nextInt();
+                    loja.comprarItem(codigoCompra, quantidadeCompra);
+                    break;
+                case 4:
+                    loja.realizarPagamento();
+                    break;
+                case 5:
+                    // Implementação das opções do administrador
+                    break;
+                case 0:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
         }
     }
 }
