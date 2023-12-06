@@ -1,0 +1,104 @@
+import java.util.Scanner;
+
+public class Loja {
+    Vitrine vitrine;
+    CarrinhoDeCompra carrinhoDeCompra;
+
+    public Loja() {
+        vitrine = new Vitrine();
+        carrinhoDeCompra = new CarrinhoDeCompra();
+    }
+
+    public void verVitrine() {
+        System.out.println("Vitrine:");
+        for (Item item : vitrine.itens) {
+            System.out.println("Código: " + item.codigo + ", Nome: " + item.nome + ", Valor: " + item.valor);
+        }
+        System.out.println();
+    }
+
+    public void verCarrinhoDeCompra() {
+        System.out.println("Carrinho de Compra:");
+        for (ItemDoCarrinho itemDoCarrinho : carrinhoDeCompra.itensDoCarrinho) {
+            System.out.println("Código: " + itemDoCarrinho.item.codigo + ", Nome: " + itemDoCarrinho.item.nome
+                    + ", Valor: " + itemDoCarrinho.item.valor + ", Quantidade: " + itemDoCarrinho.quantidade);
+        }
+        System.out.println();
+    }
+
+    public void comprarItem(int codigo, int quantidade) {
+        // Verifica se o produto está na vitrine
+        Item itemComprado = null;
+        for (Item item : vitrine.itens) {
+            if (item.codigo == codigo) {
+                itemComprado = item;
+                break;
+            }
+        }
+
+        if (itemComprado != null) {
+            // Verifica se há estoque suficiente
+            if (quantidade <= 0 || quantidade > 10) {
+                System.out.println("Quantidade inválida. Tente novamente.");
+                return;
+            }
+
+            // Adiciona o item ao carrinho
+            ItemDoCarrinho itemDoCarrinho = new ItemDoCarrinho(itemComprado, quantidade);
+            carrinhoDeCompra.adicionarItem(itemDoCarrinho);
+
+            System.out.println("Item adicionado ao carrinho com sucesso.");
+        } else {
+            System.out.println("Produto não encontrado na vitrine.");
+        }
+    }
+
+    public void realizarPagamento() {
+        double totalCompra = calcularTotalCompra();
+
+        // Aplica desconto de 10% se for à vista
+        System.out.println("Total da compra: R$" + totalCompra);
+        System.out.println("Selecione a forma de pagamento:");
+        System.out.println("1. À vista");
+        System.out.println("2. Parcelado");
+
+        Scanner scanner = new Scanner(System.in);
+        int opcaoPagamento = scanner.nextInt();
+
+        double totalPagar;
+        if (opcaoPagamento == 1) {
+            totalPagar = totalCompra * 0.9; // Aplica desconto de 10%
+        } else if (opcaoPagamento == 2) {
+            totalPagar = totalCompra;
+        } else {
+            System.out.println("Opção de pagamento inválida. Cancelando pagamento.");
+            return;
+        }
+
+        System.out.println("Total a pagar: R$" + totalPagar);
+        System.out.println("Pagamento realizado com sucesso. Obrigado!");
+        carrinhoDeCompra.itensDoCarrinho.clear(); // Limpa o carrinho após o pagamento
+    }
+
+    private double calcularTotalCompra() {
+        double totalCompra = 0;
+        for (ItemDoCarrinho itemDoCarrinho : carrinhoDeCompra.itensDoCarrinho) {
+            totalCompra += itemDoCarrinho.item.valor * itemDoCarrinho.quantidade;
+        }
+        return totalCompra;
+    }
+
+    public void cadastrarNovoItem(Item novoItem) {
+        vitrine.adicionarItem(novoItem);
+        System.out.println("Novo produto cadastrado com sucesso.");
+    }
+
+    public static void main(String[] args) {
+        Loja loja = new Loja();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            // Restante do código do menu principal...
+        }
+    }
+}
