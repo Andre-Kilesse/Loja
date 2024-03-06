@@ -1,16 +1,20 @@
 public class MetodoDePagamento {
-    public static void pagarComBoleto(double total) {
-        System.out.println("Total a pagar com boleto: R$" + total);
-        // Implemente aqui a lógica para pagamento com boleto
-    }
-
-    public static void pagarComPix(double total) {
-        System.out.println("Total a pagar com PIX: R$" + total);
-        // Implemente aqui a lógica para pagamento com PIX
-    }
-
-    public static void pagarComCartaoCredito(double total) {
-        System.out.println("Total a pagar com cartão de crédito: R$" + total);
-        // Implemente aqui a lógica para pagamento com cartão de crédito
+    public static void pagar(double total, int opcao) {
+        switch (opcao) {
+            case 1:
+                System.out.println("Total a pagar com boleto: R$" + total);
+                System.out.println("Boleto gerado com sucesso. Compra realizada!");
+                break;
+            case 2:
+                System.out.println("Total a pagar com PIX: R$" + total);
+                System.out.println("Transferência PIX realizada com sucesso. Compra realizada!");
+                break;
+            case 3:
+                System.out.println("Total a pagar com cartão de crédito: R$" + total);
+                System.out.println("Compra realizada com cartão de crédito!");
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
     }
 }
