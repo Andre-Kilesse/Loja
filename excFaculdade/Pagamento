@@ -1,0 +1,14 @@
+public class Pagamento {
+    public static void pagarBoleto() {
+        System.out.println("Pagamento realizado via boleto.");
+    }
+
+    public static void pagarPix() {
+        System.out.println("Pagamento realizado via Pix.");
+    }
+
+    public static void pagarCartaoCredito() {
+        System.out.println("Pagamento realizado via Cartão de Crédito.");
+    }
+}
+
