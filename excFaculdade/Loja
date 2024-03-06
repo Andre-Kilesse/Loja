@@ -1,0 +1,69 @@
+import java.util.Scanner;
+
+public class Loja {
+    private static boolean carrinhoVazio = true;
+  
+    public static void visualizarProdutos() {
+        System.out.println("Produtos disponíveis:");
+        System.out.println("1. Celular - R$1000.00");
+        System.out.println("2. Notebook - R$2000.00");
+        System.out.println("3. Fone de Ouvido - R$100.00");
+    }
+
+    public static void finalizarCompra() {
+        if (carrinhoVazio) {
+            System.out.println("Carrinho vazio! Nada a finalizar.");
+        } else {
+            System.out.println("Selecione a forma de pagamento:");
+            System.out.println("1. Boleto");
+            System.out.println("2. Pix");
+            System.out.println("3. Cartão de Crédito");
+            System.out.print("Opção: ");
+            Scanner scanner = new Scanner(System.in);
+            int opcaoPagamento = scanner.nextInt();
+            switch (opcaoPagamento) {
+                case 1:
+                    Pagamento.pagarBoleto();
+                    break;
+                case 2:
+                    Pagamento.pagarPix();
+                    break;
+                case 3:
+                    Pagamento.pagarCartaoCredito();
+                    break;
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+                    return;
+            }
+            System.exit(0);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        // Exibir o menu inicial apenas uma vez
+        Menu.exibirMenu();
+
+        // Loop para processar as opções
+        do {
+            opcao = Menu.selecionarOpcao();
+
+            switch (opcao) {
+                case 1:
+                    visualizarProdutos();
+                    break;
+                case 2:
+                    finalizarCompra();
+                    break;
+                case 3:
+                    System.out.println("Saindo...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+            }
+        } while (true);
+    }
+}
