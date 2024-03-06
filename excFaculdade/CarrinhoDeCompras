@@ -1,0 +1,34 @@
+// CarrinhoDeCompras.java
+import java.util.ArrayList;
+
+public class CarrinhoDeCompras {
+    private ArrayList<Produto> itens;
+
+    public CarrinhoDeCompras() {
+        itens = new ArrayList<>();
+    }
+
+    public void adicionarItem(Produto produto) {
+        itens.add(produto);
+    }
+
+    public void removerItem(int indice) {
+        if (indice >= 0 && indice < itens.size()) {
+            itens.remove(indice);
+        } else {
+            System.out.println("Índice inválido.");
+        }
+    }
+
+    public ArrayList<Produto> getItens() {
+        return itens;
+    }
+
+    public double calcularTotal() {
+        double total = 0.0;
+        for (Produto produto : itens) {
+            total += produto.getPreco();
+        }
+        return total;
+    }
+}
