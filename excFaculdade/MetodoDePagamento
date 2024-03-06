@@ -1,0 +1,16 @@
+public class MetodoDePagamento {
+    public static void pagarComBoleto(double total) {
+        System.out.println("Total a pagar com boleto: R$" + total);
+        // Implemente aqui a lógica para pagamento com boleto
+    }
+
+    public static void pagarComPix(double total) {
+        System.out.println("Total a pagar com PIX: R$" + total);
+        // Implemente aqui a lógica para pagamento com PIX
+    }
+
+    public static void pagarComCartaoCredito(double total) {
+        System.out.println("Total a pagar com cartão de crédito: R$" + total);
+        // Implemente aqui a lógica para pagamento com cartão de crédito
+    }
+}
