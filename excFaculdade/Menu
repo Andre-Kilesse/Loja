@@ -1,0 +1,20 @@
+import java.util.Scanner;
+
+public class Menu {
+    // Método para exibir o menu inicial
+    public static void exibirMenu() {
+        System.out.println("Bem-vindo à Loja!");
+        System.out.println("Selecione uma opção:");
+        System.out.println("1. Visualizar produtos");
+        System.out.println("2. Finalizar compra");
+        System.out.println("3. Sair");
+    }
+
+    public static int selecionarOpcao() {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+        System.out.print("Opção: ");
+        opcao = scanner.nextInt();
+        return opcao;
+    }
+}
